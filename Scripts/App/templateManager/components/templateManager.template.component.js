@@ -32,7 +32,7 @@ var TemplateManagerTemplateComponent = (function () {
         this.uploader.onCompleteItem = this.onUploadComplete.bind(this);
         this.uploader.onErrorItem = this.onUploadError.bind(this);
         this.newTemplateState = new newtemplatestate_1.NewTemplateState();
-        this.newTemplateState.programs.push(this.programs[2]);
+        this.newTemplateState.programs.push(this.programs[0]);
         this.newTemplateState.orgUnit = this.orgUnits[0];
     }
     TemplateManagerTemplateComponent.prototype.onUploadFileChanged = function (e) {
@@ -55,11 +55,26 @@ var TemplateManagerTemplateComponent = (function () {
     TemplateManagerTemplateComponent.prototype.onOrgUnitSelected = function (orgUnit) {
         this.newTemplateState.orgUnit = orgUnit;
     };
+    TemplateManagerTemplateComponent.prototype.onProgramSelected = function (program) {
+        this.newTemplateState.programs[0].statuses = this.programs.find(function (p) { return p.name === program; }).statuses; ///////////////////////
+    };
     TemplateManagerTemplateComponent.prototype.isFormValid = function () {
         return this.newTemplateState.templateName !== "" &&
             this.newTemplateState.orgUnit !== "" &&
             this.newTemplateState.programs != null &&
             this.newTemplateState.file != null;
+    };
+    TemplateManagerTemplateComponent.prototype.addProgram = function () {
+        this.newTemplateState.programs.push(this.programs[this.newTemplateState.programs.length]);
+        alert("ADD");
+        this.newTemplateState.programs.push(this.programs[0]);
+        var select = document.getElementById("selectProgram" + (this.newTemplateState.programs.length - 1).toString());
+        select.addEventListener('change'), function () {
+            var index = select.selectedIndex;
+            alert(index);
+            //this.newTemplateState.programs[this.currentProgramIndex] = this.programs[index];
+            //this.currentProgram = this.newTemplateState[this.currentProgramIndex];
+        };
     };
     //public removeProgram(program: Program) {
     //    let tempPrograms: Array<Program> = [];

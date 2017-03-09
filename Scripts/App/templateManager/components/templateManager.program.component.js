@@ -45,6 +45,7 @@ var TemplateManagerProgramComponent = (function () {
         //}
     };
     TemplateManagerProgramComponent.prototype.addProgram = function () {
+        alert("ADD");
         this.newTemplateState.programs.push(this.programs[0]);
         var select = document.getElementById("selectProgram");
         select.addEventListener('change'), function () {

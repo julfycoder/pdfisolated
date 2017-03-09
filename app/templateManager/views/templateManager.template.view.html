@@ -40,13 +40,11 @@
 		    <label *ngIf="newTemplateState.file"> filename: {{newTemplateState.file.file.name}}</label><br/>
 		    <label *ngIf="newTemplateState.templateName"> templateName: {{newTemplateState.templateName}}</label><br/>
 		    <label *ngIf="newTemplateState.orgUnit"> orgUnit: {{newTemplateState.orgUnit}}</label><br/>
-		    programs:<br/>
-		    <ul>
-		        <li *ngFor="let program of newTemplateState.programs"><label> program: {{program.name}} </label><br/></li>
-		    </ul>
+            <label *ngIf="programName"> program[0]: {{programName}}</label><br/>
             \
 			<br />
 		    <div *ngIf="parsingResponse?.IsOk">
+		        <h3>Specify details -  to be implemented later!</h3>
 
 		        <div class="form-group is-empty">
 		            <span class="col-md-2 control-label">Template name <span class="text-danger">*</span></span>
@@ -66,11 +64,25 @@
 		                </select>
 		            </div>
 		        </div>
-		       
-		        <program-template [newTemplateState]="newTemplateState"></program-template>
-                
-                <button (click)="addProgram()">Add program</button>
 
+		        <div *ngFor="let program of newTemplateState.programs" class="form-group is-empty">
+		            <span class="col-md-2 control-label">Program & status <span class="text-danger">*</span></span>
+
+		            <div class="col-md-10">
+		                <div class="col-md-4">
+		                    <select [attr.id]="'selectProgram'+newTemplateState.programs.indexOf(program)" class="form-control" (change)="onProgramSelected($event.srcElement.value);">
+		                        <option *ngFor="let p of programs">{{p.name}}</option>
+		                    </select>
+		                </div>
+		                <div class="col-md-4">
+		                    <select id="selectStatus" class="form-control">
+		                        <option *ngFor="let status of programs[0].statuses">{{status.name}}</option>
+		                    </select>
+		                </div>
+		            </div>
+                    <!--<button (click)="removeProgram(program);">Remove</button>-->
+		        </div>
+                <button (click)="addProgram();">Add Program</button>
 		    </div>
 
 			<div class="text-center">

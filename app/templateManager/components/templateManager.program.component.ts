@@ -57,6 +57,7 @@ export class TemplateManagerProgramComponent {
     }
 
     public addProgram() {
+        alert("ADD");
         this.newTemplateState.programs.push(this.programs[0]);
         let select: any = document.getElementById("selectProgram") as HTMLSelectElement;
         select.addEventListener('change'), () => {

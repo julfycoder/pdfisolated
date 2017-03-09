@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterService } from '../../services/router.service';
 import { FileUploader } from 'ng2-file-upload';
 import { FileItem } from 'ng2-file-upload';
@@ -7,7 +7,7 @@ import { PdfParsingResponse } from '../models/pdfparsingresponse';
 import { plainToClass } from "class-transformer";
 import {NewTemplateState} from "../models/newtemplatestate";
 import {Program} from "../models/program";
-import { Status } from "../models/status";
+import {Status} from "../models/status";
 
 
 const UploadUrl = '/admin/api/templatemanager/uploadpdftemplate';
@@ -20,7 +20,7 @@ declare var window: any;
     templateUrl: window.serverSideSettings.appPath +
         '/AdminSite/app/templateManager/views/templateManager.template.view.html'
 })
-export class TemplateManagerTemplateComponent/* implements OnInit*/{
+export class TemplateManagerTemplateComponent {
     
     public uploader: FileUploader;
 
@@ -44,7 +44,7 @@ export class TemplateManagerTemplateComponent/* implements OnInit*/{
         this.uploader.onErrorItem = this.onUploadError.bind(this);
 
         this.newTemplateState = new NewTemplateState();
-        this.newTemplateState.programs.push(this.programs[2]);
+        this.newTemplateState.programs.push(this.programs[0]);
         this.newTemplateState.orgUnit = this.orgUnits[0];
     }
 
@@ -74,7 +74,9 @@ export class TemplateManagerTemplateComponent/* implements OnInit*/{
         this.newTemplateState.orgUnit = orgUnit;
     }
 
-    
+    public onProgramSelected(program) {
+        this.newTemplateState.programs[0].statuses = this.programs.find(p => p.name === program).statuses;///////////////////////
+    }
 
     public isFormValid(): boolean {
         return this.newTemplateState.templateName !== "" &&
@@ -83,7 +85,18 @@ export class TemplateManagerTemplateComponent/* implements OnInit*/{
             this.newTemplateState.file != null;
     }
 
-    
+    public addProgram() {
+        this.newTemplateState.programs.push(this.programs[this.newTemplateState.programs.length]);
+        alert("ADD");
+        this.newTemplateState.programs.push(this.programs[0]);
+        let select: any = document.getElementById("selectProgram"+(this.newTemplateState.programs.length-1).toString()) as HTMLSelectElement;
+        select.addEventListener('change'), () => {
+            var index = select.selectedIndex;
+            alert(index);
+            //this.newTemplateState.programs[this.currentProgramIndex] = this.programs[index];
+            //this.currentProgram = this.newTemplateState[this.currentProgramIndex];
+        }
+    }
     //public removeProgram(program: Program) {
     //    let tempPrograms: Array<Program> = [];
     //    //Adding to tempPrograms
@@ -99,8 +112,6 @@ export class TemplateManagerTemplateComponent/* implements OnInit*/{
     //        this.newTemplateState.programs.push(p);
     //    }
     //}
-
-    
 
     goback() {
         this.routerService.navigateBack();
