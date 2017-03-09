@@ -1,0 +1,56 @@
+﻿@using System.Web.Optimization
+@using Mede.Fcw.Web.Config
+
+@inherits System.Web.Mvc.WebViewPage
+@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>FCW Admin</title>
+	<base href="/">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+	<!-- Material Design fonts -->
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
+	<!-- ----------------Styles--------- -->
+	<!--Bootstrap and Bootstrap Material styles-->
+	@Styles.Render("~/AdminSite/styles/BootstrapAndMaterialDesign")
+	@Styles.Render("~/AdminSite/styles/CustomStyles")
+
+	<!------------------ Scripts-------- -->
+	@Scripts.Render("~/AdminSite/scripts/NgRequiredScripts")
+
+	<script>
+		window.getServerSideSettings = function () {
+			var settings =
+			{
+				@Html.Raw(AppConfig.GetClientSideSettingsJson())
+			};
+
+			return settings;
+		};
+		var serverSideSettings = window.getServerSideSettings();
+	</script>
+
+	<script src="~/AdminSite/systemjs.config.js"></script>
+	<script>
+		System.import('app').catch(function (err) { console.error(err); });
+	</script>
+
+	@Scripts.Render("~/AdminSite/scripts/jQuery")
+	@Scripts.Render("~/AdminSite/scripts/BootstrapAndMaterialDesign")
+</head>
+<body>
+@* ReSharper disable Html.TagNotResolved *@
+	<app-root>Loading...</app-root>
+@* ReSharper restore Html.TagNotResolved *@
+</body>
+</html>

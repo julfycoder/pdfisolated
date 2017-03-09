@@ -1,0 +1,83 @@
+﻿<div class="panel panel-default full-height">
+	<div class="panel-body">
+		<h1 class="header text-left">New template</h1>
+		<br />
+
+		<div class="alert alert-danger" *ngIf="isError">
+			<strong>Error!</strong> Unexpected error occured. Please try again or contact support
+		</div>
+
+		<div class="form-horizontal">
+			<div>
+				<span class="col-md-2 control-label">PDF template <span class="text-danger">*</span></span>
+
+				<div class="col-md-10">
+					<div>
+						<input type="file" class="form-control" ng2FileSelect [uploader]="uploader" (change)="onUploadFileChanged($event)" accept=".pdf" value="{{fileName}}"/>
+					</div>
+					<div *ngIf="uploader.isUploading" class="text-muted">
+						<span class="glyphicon glyphicon-asterisk"></span> Checking for errors...
+					</div>
+
+					<div *ngIf="parsingResponse?.IsOk" class="text-success">
+						<span class="glyphicon glyphicon-ok-circle"></span> No errors found
+					</div>
+
+					<div *ngIf="parsingResponse?.IsOk == false" class="text-danger">
+						<span class="glyphicon glyphicon-remove-circle"></span> {{parsingResponse?.ErrorMessages.length}} error(s) found in <b>{{parsingResponse?.FileName}}</b>
+						<ul>
+							<li *ngFor="let curMessage of parsingResponse?.ErrorMessages">
+								{{ curMessage }}
+							</li>
+						</ul>
+						<span>Please correct errors and try again</span>
+					</div>
+
+				</div>
+			</div>
+		    <br />
+            /<br/>
+		    <label *ngIf="newTemplateState.file"> filename: {{newTemplateState.file.file.name}}</label><br/>
+		    <label *ngIf="newTemplateState.templateName"> templateName: {{newTemplateState.templateName}}</label><br/>
+		    <label *ngIf="newTemplateState.orgUnit"> orgUnit: {{newTemplateState.orgUnit}}</label><br/>
+		    programs:<br/>
+		    <ul>
+		        <li *ngFor="let program of newTemplateState.programs"><label> program: {{program.name}} </label><br/></li>
+		    </ul>
+            \
+			<br />
+		    <div *ngIf="parsingResponse?.IsOk">
+
+		        <div class="form-group is-empty">
+		            <span class="col-md-2 control-label">Template name <span class="text-danger">*</span></span>
+		            <div class="col-md-10">
+		                <input type="text" class="form-control" id="inputTemplateName" [(ngModel)]="newTemplateState.templateName" placeholder="PDF template name here">
+		                <div class="alert alert-danger" *ngIf="!newTemplateState.templateName || newTemplateState.templateName==''">
+		                    Template name is required
+		                </div>
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <span class="col-md-2 control-label">Org unit <span class="text-danger">*</span></span>
+
+		            <div class="col-md-10">
+		                <select id="selectOrgUnit" class="form-control" (change)="onOrgUnitSelected($event.srcElement.value);">
+		                    <option *ngFor="let orgUnit of orgUnits">{{orgUnit}}</option>
+		                </select>
+		            </div>
+		        </div>
+		       
+		        <program-template [newTemplateState]="newTemplateState"></program-template>
+                
+                <button (click)="addProgram()">Add program</button>
+
+		    </div>
+
+			<div class="text-center">
+				<button type="button" class="btn btn-link" routerLink="../list">Cancel</button>
+				<button *ngIf="parsingResponse?.IsOk && isFormValid()" type="button" class="btn btn-primary" data-toggle="modal" routerLink="../preview">Next</button>
+			</div>
+		</div>
+
+	</div>
+</div>
