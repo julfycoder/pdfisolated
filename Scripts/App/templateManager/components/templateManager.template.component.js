@@ -23,9 +23,9 @@ var TemplateManagerTemplateComponent = (function () {
     function TemplateManagerTemplateComponent(routerService) {
         this.routerService = routerService;
         this.programs = [
-            new program_1.Program("DDD", "TestProgram1", "Some code", [new status_1.Status("TestStatus11"), new status_1.Status("TestStatus12"), new status_1.Status("TestStatus13")]),
-            new program_1.Program("EEE", "TestProgram2", "Some code", [new status_1.Status("TestStatus21"), new status_1.Status("TestStatus22"), new status_1.Status("TestStatus23")]),
-            new program_1.Program("CCC", "TestProgram3", "Some code", [new status_1.Status("TestStatus31"), new status_1.Status("TestStatus32"), new status_1.Status("TestStatus33")])
+            new program_1.Program("DDD", "TestProgram1", "Some code1", [new status_1.Status("TestStatus11"), new status_1.Status("TestStatus12"), new status_1.Status("TestStatus13")]),
+            new program_1.Program("EEE", "TestProgram2", "Some code2", [new status_1.Status("TestStatus21"), new status_1.Status("TestStatus22"), new status_1.Status("TestStatus23")]),
+            new program_1.Program("CCC", "TestProgram3", "Some code3", [new status_1.Status("TestStatus31"), new status_1.Status("TestStatus32"), new status_1.Status("TestStatus33")])
         ];
         this.orgUnits = ["OrgUnit1", "OrgUnit2", "OrgUnit3", "OrgUnit4", "OrgUnit5"];
         this.uploader = new ng2_file_upload_1.FileUploader({ url: window.serverSideSettings.appPath + UploadUrl });
@@ -55,9 +55,6 @@ var TemplateManagerTemplateComponent = (function () {
     TemplateManagerTemplateComponent.prototype.onOrgUnitSelected = function (orgUnit) {
         this.newTemplateState.orgUnit = orgUnit;
     };
-    TemplateManagerTemplateComponent.prototype.onProgramSelected = function (program) {
-        this.newTemplateState.programs[0].statuses = this.programs.find(function (p) { return p.name === program; }).statuses; ///////////////////////
-    };
     TemplateManagerTemplateComponent.prototype.isFormValid = function () {
         return this.newTemplateState.templateName !== "" &&
             this.newTemplateState.orgUnit !== "" &&
@@ -66,15 +63,37 @@ var TemplateManagerTemplateComponent = (function () {
     };
     TemplateManagerTemplateComponent.prototype.addProgram = function () {
         this.newTemplateState.programs.push(this.programs[this.newTemplateState.programs.length]);
-        alert("ADD");
-        this.newTemplateState.programs.push(this.programs[0]);
-        var select = document.getElementById("selectProgram" + (this.newTemplateState.programs.length - 1).toString());
-        select.addEventListener('change'), function () {
-            var index = select.selectedIndex;
-            alert(index);
-            //this.newTemplateState.programs[this.currentProgramIndex] = this.programs[index];
-            //this.currentProgram = this.newTemplateState[this.currentProgramIndex];
-        };
+    };
+    TemplateManagerTemplateComponent.prototype.getProgramsWithoutSelected = function (program) {
+        if (this.newTemplateState.programs.length > 1) {
+            //return this.programs.filter((value:Program) => {
+            //    for (let p of this.newTemplateState.programs) {
+            //        if (p.id === value.id) return false;
+            //    }
+            //    return true;
+            //});
+            var currentProgramms = [];
+            var _loop_1 = function (ntsp) {
+                for (var _i = 0, _a = this_1.programs; _i < _a.length; _i++) {
+                    var p = _a[_i];
+                    if (p.id !== program.id) {
+                        if (p.id !== ntsp.id && currentProgramms.find(function (pr) { return pr.id === ntsp.id; }) != null) {
+                            currentProgramms.push(p);
+                        }
+                    }
+                }
+            };
+            var this_1 = this;
+            for (var _i = 0, _a = this.newTemplateState.programs; _i < _a.length; _i++) {
+                var ntsp = _a[_i];
+                _loop_1(ntsp);
+            }
+            return currentProgramms;
+        }
+        return this.programs;
+    };
+    TemplateManagerTemplateComponent.prototype.onProgramSelected = function (programIndex, selectedProgramIndex) {
+        this.newTemplateState.programs[programIndex] = this.programs[selectedProgramIndex];
     };
     //public removeProgram(program: Program) {
     //    let tempPrograms: Array<Program> = [];

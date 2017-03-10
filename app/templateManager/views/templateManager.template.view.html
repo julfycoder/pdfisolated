@@ -1,95 +1,97 @@
 ﻿<div class="panel panel-default full-height">
-	<div class="panel-body">
-		<h1 class="header text-left">New template</h1>
-		<br />
+    <div class="panel-body">
+        <h1 class="header text-left">New template</h1>
+        <br />
 
-		<div class="alert alert-danger" *ngIf="isError">
-			<strong>Error!</strong> Unexpected error occured. Please try again or contact support
-		</div>
+        <div class="alert alert-danger" *ngIf="isError">
+            <strong>Error!</strong> Unexpected error occured. Please try again or contact support
+        </div>
 
-		<div class="form-horizontal">
-			<div>
-				<span class="col-md-2 control-label">PDF template <span class="text-danger">*</span></span>
+        <div class="form-horizontal">
+            <div>
+                <span class="col-md-2 control-label">PDF template <span class="text-danger">*</span></span>
 
-				<div class="col-md-10">
-					<div>
-						<input type="file" class="form-control" ng2FileSelect [uploader]="uploader" (change)="onUploadFileChanged($event)" accept=".pdf" value="{{fileName}}"/>
-					</div>
-					<div *ngIf="uploader.isUploading" class="text-muted">
-						<span class="glyphicon glyphicon-asterisk"></span> Checking for errors...
-					</div>
+                <div class="col-md-10">
+                    <div>
+                        <input type="file" class="form-control" ng2FileSelect [uploader]="uploader" (change)="onUploadFileChanged($event)" accept=".pdf" value="{{fileName}}"/>
+                    </div>
+                    <div *ngIf="uploader.isUploading" class="text-muted">
+                        <span class="glyphicon glyphicon-asterisk"></span> Checking for errors...
+                    </div>
 
-					<div *ngIf="parsingResponse?.IsOk" class="text-success">
-						<span class="glyphicon glyphicon-ok-circle"></span> No errors found
-					</div>
+                    <div *ngIf="parsingResponse?.IsOk" class="text-success">
+                        <span class="glyphicon glyphicon-ok-circle"></span> No errors found
+                    </div>
 
-					<div *ngIf="parsingResponse?.IsOk == false" class="text-danger">
-						<span class="glyphicon glyphicon-remove-circle"></span> {{parsingResponse?.ErrorMessages.length}} error(s) found in <b>{{parsingResponse?.FileName}}</b>
-						<ul>
-							<li *ngFor="let curMessage of parsingResponse?.ErrorMessages">
-								{{ curMessage }}
-							</li>
-						</ul>
-						<span>Please correct errors and try again</span>
-					</div>
+                    <div *ngIf="parsingResponse?.IsOk == false" class="text-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span> {{parsingResponse?.ErrorMessages.length}} error(s) found in <b>{{parsingResponse?.FileName}}</b>
+                        <ul>
+                            <li *ngFor="let curMessage of parsingResponse?.ErrorMessages">
+                                {{ curMessage }}
+                            </li>
+                        </ul>
+                        <span>Please correct errors and try again</span>
+                    </div>
 
-				</div>
-			</div>
-		    <br />
+                </div>
+            </div>
+            <br />
             /<br/>
-		    <label *ngIf="newTemplateState.file"> filename: {{newTemplateState.file.file.name}}</label><br/>
-		    <label *ngIf="newTemplateState.templateName"> templateName: {{newTemplateState.templateName}}</label><br/>
-		    <label *ngIf="newTemplateState.orgUnit"> orgUnit: {{newTemplateState.orgUnit}}</label><br/>
-            <label *ngIf="programName"> program[0]: {{programName}}</label><br/>
+            <label *ngIf="newTemplateState.file"> filename: {{newTemplateState.file.file.name}}</label><br/>
+            <label *ngIf="newTemplateState.templateName"> templateName: {{newTemplateState.templateName}}</label><br/>
+            <label *ngIf="newTemplateState.orgUnit"> orgUnit: {{newTemplateState.orgUnit}}</label><br/>
+            <ul>
+                <li *ngFor="let program of this.newTemplateState.programs"><label> program: {{program.name}}</label><br/></li>
+            </ul>
             \
-			<br />
-		    <div *ngIf="parsingResponse?.IsOk">
-		        <h3>Specify details -  to be implemented later!</h3>
+            <br />
+            <div *ngIf="parsingResponse?.IsOk">
+                <h3>Specify details -  to be implemented later!</h3>
 
-		        <div class="form-group is-empty">
-		            <span class="col-md-2 control-label">Template name <span class="text-danger">*</span></span>
-		            <div class="col-md-10">
-		                <input type="text" class="form-control" id="inputTemplateName" [(ngModel)]="newTemplateState.templateName" placeholder="PDF template name here">
-		                <div class="alert alert-danger" *ngIf="!newTemplateState.templateName || newTemplateState.templateName==''">
-		                    Template name is required
-		                </div>
-		            </div>
-		        </div>
-		        <div class="form-group">
-		            <span class="col-md-2 control-label">Org unit <span class="text-danger">*</span></span>
+                <div class="form-group is-empty">
+                    <span class="col-md-2 control-label">Template name <span class="text-danger">*</span></span>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="inputTemplateName" [(ngModel)]="newTemplateState.templateName" placeholder="PDF template name here">
+                        <div class="alert alert-danger" *ngIf="!newTemplateState.templateName || newTemplateState.templateName==''">
+                            Template name is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="col-md-2 control-label">Org unit <span class="text-danger">*</span></span>
 
-		            <div class="col-md-10">
-		                <select id="selectOrgUnit" class="form-control" (change)="onOrgUnitSelected($event.srcElement.value);">
-		                    <option *ngFor="let orgUnit of orgUnits">{{orgUnit}}</option>
-		                </select>
-		            </div>
-		        </div>
+                    <div class="col-md-10">
+                        <select id="selectOrgUnit" class="form-control" (change)="onOrgUnitSelected($event.srcElement.value);">
+                            <option *ngFor="let orgUnit of orgUnits">{{orgUnit}}</option>
+                        </select>
+                    </div>
+                </div>
 
-		        <div *ngFor="let program of newTemplateState.programs" class="form-group is-empty">
-		            <span class="col-md-2 control-label">Program & status <span class="text-danger">*</span></span>
+                <div *ngFor="let program of newTemplateState.programs" class="form-group is-empty">
+                    <span class="col-md-2 control-label">Program & status <span class="text-danger">*</span></span>
 
-		            <div class="col-md-10">
-		                <div class="col-md-4">
-		                    <select [attr.id]="'selectProgram'+newTemplateState.programs.indexOf(program)" class="form-control" (change)="onProgramSelected($event.srcElement.value);">
-		                        <option *ngFor="let p of programs">{{p.name}}</option>
-		                    </select>
-		                </div>
-		                <div class="col-md-4">
-		                    <select id="selectStatus" class="form-control">
-		                        <option *ngFor="let status of programs[0].statuses">{{status.name}}</option>
-		                    </select>
-		                </div>
-		            </div>
+                    <div class="col-md-10">
+                        <div class="col-md-4">
+                            <select [attr.id]="'selectProgram'+newTemplateState.programs.indexOf(program)" class="form-control" (change)="onProgramSelected(this.newTemplateState.programs.indexOf(program),$event.srcElement.value);">
+                                <option *ngFor="let p of getProgramsWithoutSelected(program)" [attr.value]="programs.indexOf(p)" [selected]="p.id===program.id">{{p.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select id="selectStatus" class="form-control">
+                                <option *ngFor="let status of programs[0].statuses">{{status.name}}</option>
+                            </select>
+                        </div>
+                    </div>
                     <!--<button (click)="removeProgram(program);">Remove</button>-->
-		        </div>
+                </div>
                 <button (click)="addProgram();">Add Program</button>
-		    </div>
+            </div>
 
-			<div class="text-center">
-				<button type="button" class="btn btn-link" routerLink="../list">Cancel</button>
-				<button *ngIf="parsingResponse?.IsOk && isFormValid()" type="button" class="btn btn-primary" data-toggle="modal" routerLink="../preview">Next</button>
-			</div>
-		</div>
+            <div class="text-center">
+                <button type="button" class="btn btn-link" routerLink="../list">Cancel</button>
+                <button *ngIf="parsingResponse?.IsOk && isFormValid()" type="button" class="btn btn-primary" data-toggle="modal" routerLink="../preview">Next</button>
+            </div>
+        </div>
 
-	</div>
+    </div>
 </div>

@@ -21,7 +21,7 @@ declare var window: any;
         '/AdminSite/app/templateManager/views/templateManager.template.view.html'
 })
 export class TemplateManagerTemplateComponent {
-    
+
     public uploader: FileUploader;
 
     //-------------------- Model part
@@ -30,9 +30,18 @@ export class TemplateManagerTemplateComponent {
     public newTemplateState: NewTemplateState;
 
     public programs: Array<Program> = [
-        new Program("DDD", "TestProgram1", "Some code", [new Status("TestStatus11"), new Status("TestStatus12"), new Status("TestStatus13")]),
-        new Program("EEE", "TestProgram2", "Some code", [new Status("TestStatus21"), new Status("TestStatus22"), new Status("TestStatus23")]),
-        new Program("CCC", "TestProgram3", "Some code", [new Status("TestStatus31"), new Status("TestStatus32"), new Status("TestStatus33")])
+        new Program("DDD",
+            "TestProgram1",
+            "Some code1",
+            [new Status("TestStatus11"), new Status("TestStatus12"), new Status("TestStatus13")]),
+        new Program("EEE",
+            "TestProgram2",
+            "Some code2",
+            [new Status("TestStatus21"), new Status("TestStatus22"), new Status("TestStatus23")]),
+        new Program("CCC",
+            "TestProgram3",
+            "Some code3",
+            [new Status("TestStatus31"), new Status("TestStatus32"), new Status("TestStatus33")])
     ];
     public orgUnits: string[] = ["OrgUnit1", "OrgUnit2", "OrgUnit3", "OrgUnit4", "OrgUnit5"];
     //-------------------------------
@@ -74,9 +83,7 @@ export class TemplateManagerTemplateComponent {
         this.newTemplateState.orgUnit = orgUnit;
     }
 
-    public onProgramSelected(program) {
-        this.newTemplateState.programs[0].statuses = this.programs.find(p => p.name === program).statuses;///////////////////////
-    }
+  
 
     public isFormValid(): boolean {
         return this.newTemplateState.templateName !== "" &&
@@ -85,18 +92,40 @@ export class TemplateManagerTemplateComponent {
             this.newTemplateState.file != null;
     }
 
+
+
     public addProgram() {
         this.newTemplateState.programs.push(this.programs[this.newTemplateState.programs.length]);
-        alert("ADD");
-        this.newTemplateState.programs.push(this.programs[0]);
-        let select: any = document.getElementById("selectProgram"+(this.newTemplateState.programs.length-1).toString()) as HTMLSelectElement;
-        select.addEventListener('change'), () => {
-            var index = select.selectedIndex;
-            alert(index);
-            //this.newTemplateState.programs[this.currentProgramIndex] = this.programs[index];
-            //this.currentProgram = this.newTemplateState[this.currentProgramIndex];
-        }
     }
+
+    public getProgramsWithoutSelected(program: Program): Program[] {
+        if (this.newTemplateState.programs.length > 1) {
+            //return this.programs.filter((value:Program) => {
+            //    for (let p of this.newTemplateState.programs) {
+            //        if (p.id === value.id) return false;
+            //    }
+            //    return true;
+            //});
+            let currentProgramms: Program[] = [];
+
+            for (let ntsp of this.newTemplateState.programs) {
+                for (let p of this.programs) {
+                    if (p.id !== program.id) {
+                        if (p.id !== ntsp.id && currentProgramms.find(pr => pr.id === ntsp.id) != null) {
+                            currentProgramms.push(p);
+                        }
+                    }
+                }
+            }
+            return currentProgramms;
+        }
+        return this.programs;
+    }
+
+    public onProgramSelected(programIndex, selectedProgramIndex) {
+        this.newTemplateState.programs[programIndex] = this.programs[selectedProgramIndex];
+    }
+
     //public removeProgram(program: Program) {
     //    let tempPrograms: Array<Program> = [];
     //    //Adding to tempPrograms
