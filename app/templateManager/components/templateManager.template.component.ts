@@ -1,16 +1,20 @@
 import { Component } from '@angular/core';
 import { RouterService } from '../../services/router.service';
+import {HttpService} from '../../services/http.service';
 import { FileUploader } from 'ng2-file-upload';
 import { FileItem } from 'ng2-file-upload';
 import { ParsedResponseHeaders } from 'ng2-file-upload';
 import { PdfParsingResponse } from '../models/pdfparsingresponse';
 import { plainToClass } from "class-transformer";
-import {NewTemplateState} from "../models/newtemplatestate";
-import {Program} from "../models/program";
-import {Status} from "../models/status";
+import { NewTemplateState } from "../models/newtemplatestate";
+import { Program } from "../models/program";
+import { Status } from "../models/status";
+import {OrgUnit} from "../models/orgunit";
+import { Observable } from 'rxjs/Observable';
 
 
-const UploadUrl = '/admin/api/templatemanager/uploadpdftemplate';
+const uploadUrl = '/admin/api/templatemanager/uploadpdftemplate';
+const templateDictionariesUrl = '/admin/api/templatemanager/gettemplatedictionaries';
 
 declare var window: any;
 
@@ -18,7 +22,7 @@ declare var window: any;
 @Component({
     selector: 'app-template-template',
     templateUrl: window.serverSideSettings.appPath +
-        '/AdminSite/app/templateManager/views/templateManager.template.view.html'
+    '/AdminSite/app/templateManager/views/templateManager.template.view.html'
 })
 export class TemplateManagerTemplateComponent {
 
@@ -29,32 +33,24 @@ export class TemplateManagerTemplateComponent {
     public isError: boolean;
     public newTemplateState: NewTemplateState;
 
-    public programs: Array<Program> = [
-        new Program("DDD",
-            "TestProgram1",
-            "Some code1",
-            [new Status("TestStatus11"), new Status("TestStatus12"), new Status("TestStatus13")]),
-        new Program("EEE",
-            "TestProgram2",
-            "Some code2",
-            [new Status("TestStatus21"), new Status("TestStatus22"), new Status("TestStatus23")]),
-        new Program("CCC",
-            "TestProgram3",
-            "Some code3",
-            [new Status("TestStatus31"), new Status("TestStatus32"), new Status("TestStatus33")])
-    ];
-    public orgUnits: string[] = ["OrgUnit1", "OrgUnit2", "OrgUnit3", "OrgUnit4", "OrgUnit5"];
+    public programs: Array<Program> ;
+    public orgUnits: OrgUnit[];
     //-------------------------------
 
-    constructor(public routerService: RouterService) {
-        this.uploader = new FileUploader({ url: window.serverSideSettings.appPath + UploadUrl });
+    constructor(public routerService: RouterService, public httpService: HttpService) {
+        this.uploader = new FileUploader({ url: window.serverSideSettings.appPath + uploadUrl });
 
         this.uploader.onCompleteItem = this.onUploadComplete.bind(this);
         this.uploader.onErrorItem = this.onUploadError.bind(this);
 
-        this.newTemplateState = new NewTemplateState();
-        this.newTemplateState.programs.push(this.programs[0]);
-        this.newTemplateState.orgUnit = this.orgUnits[0];
+        httpService.get(templateDictionariesUrl).subscribe(o => {
+            this.programs = o.programs;
+            this.orgUnits = o.orgUnits;
+
+            this.newTemplateState = new NewTemplateState();
+            this.newTemplateState.programs.push(this.programs[0]);
+            this.newTemplateState.orgUnit = this.orgUnits[0];
+        });
     }
 
     public onUploadFileChanged(e: any): void {
@@ -83,11 +79,11 @@ export class TemplateManagerTemplateComponent {
         this.newTemplateState.orgUnit = orgUnit;
     }
 
-  
+
 
     public isFormValid(): boolean {
         return this.newTemplateState.templateName !== "" &&
-            this.newTemplateState.orgUnit !== "" &&
+            this.newTemplateState.orgUnit != null &&
             this.newTemplateState.programs != null &&
             this.newTemplateState.file != null;
     }
@@ -95,27 +91,15 @@ export class TemplateManagerTemplateComponent {
 
 
     public addProgram() {
-        this.newTemplateState.programs.push(this.programs[this.newTemplateState.programs.length]);
+        this.newTemplateState.programs.push(this.programs.find(p => this.newTemplateState.programs.every((value: Program) => { return p.id != value.id })));
     }
 
     public getProgramsWithoutSelected(program: Program): Program[] {
         if (this.newTemplateState.programs.length > 1) {
-            //return this.programs.filter((value:Program) => {
-            //    for (let p of this.newTemplateState.programs) {
-            //        if (p.id === value.id) return false;
-            //    }
-            //    return true;
-            //});
             let currentProgramms: Program[] = [];
-
-            for (let ntsp of this.newTemplateState.programs) {
-                for (let p of this.programs) {
-                    if (p.id !== program.id) {
-                        if (p.id !== ntsp.id && currentProgramms.find(pr => pr.id === ntsp.id) != null) {
-                            currentProgramms.push(p);
-                        }
-                    }
-                }
+            for (let p of this.programs) {
+                if (p.id == program.id) currentProgramms.push(p);
+                else if (this.newTemplateState.programs.every((value: Program) => { return value.id != p.id })) currentProgramms.push(p);
             }
             return currentProgramms;
         }
@@ -126,21 +110,9 @@ export class TemplateManagerTemplateComponent {
         this.newTemplateState.programs[programIndex] = this.programs[selectedProgramIndex];
     }
 
-    //public removeProgram(program: Program) {
-    //    let tempPrograms: Array<Program> = [];
-    //    //Adding to tempPrograms
-    //    for (let p of this.newTemplateState.programs) {
-    //        if (p.id !== program.id) tempPrograms.push(p);
-    //    }
-    //    //Removing from newTemplateState.programs
-    //    for (let i = 0; i < this.newTemplateState.programs.length; i++) {
-    //        this.newTemplateState.programs.pop();
-    //    }
-    //    //Adding to newTemplateState.programs from tempPrograms
-    //    for (let p of tempPrograms) {
-    //        this.newTemplateState.programs.push(p);
-    //    }
-    //}
+    public removeProgram(program: Program) {
+        this.newTemplateState.programs = this.newTemplateState.programs.filter((value: Program) => { return value.id != program.id });
+    }
 
     goback() {
         this.routerService.navigateBack();

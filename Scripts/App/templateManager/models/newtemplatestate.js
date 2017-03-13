@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var NewTemplateState = (function () {
     function NewTemplateState() {
         this.programs = [];
-        this.orgUnit = "";
         this.templateName = "";
     }
     return NewTemplateState;

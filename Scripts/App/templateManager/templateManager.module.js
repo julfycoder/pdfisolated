@@ -14,7 +14,7 @@ var ng2_pagination_1 = require("ng2-pagination");
 var ng2_file_upload_1 = require("ng2-file-upload");
 var templateManager_component_1 = require("./components/templateManager.component");
 var templateManager_routing_1 = require("./templateManager.routing");
-var templateManager_program_component_1 = require("./components/templateManager.program.component");
+var select_picker_1 = require("./directives/select.picker");
 var TemplateManagerModule = (function () {
     function TemplateManagerModule() {
     }
@@ -23,7 +23,7 @@ var TemplateManagerModule = (function () {
 TemplateManagerModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, http_1.HttpModule, templateManager_routing_1.TemplateManagerRoutingModule, forms_1.FormsModule, ng2_pagination_1.Ng2PaginationModule, ng2_file_upload_1.FileUploadModule],
-        declarations: [templateManager_routing_1.templateManagerRoutingComponents, templateManager_program_component_1.TemplateManagerProgramComponent],
+        declarations: [templateManager_routing_1.templateManagerRoutingComponents, select_picker_1.SelectPicker],
         bootstrap: [templateManager_component_1.TemplateManagerComponent]
     })
 ], TemplateManagerModule);

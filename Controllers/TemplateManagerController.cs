@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Web;
 using System.Web.Http;
 using Mede.Fcw.Core.Domain.Enums;
@@ -36,5 +37,11 @@ namespace Mede.Fcw.Web.AdminSite.Controllers
 
 			return Ok(_service.ParseAndValidatePdf(file.FileName, file.ContentType, file.InputStream));
 		}
+
+	    [HttpGet]
+	    public IHttpActionResult GetTemplateDictionaries()
+	    {
+	        return Ok(_service.GetTemplateDictionaries());
+	    }
 	}
 }
