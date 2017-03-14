@@ -76,7 +76,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <span custom-status *ngFor="let status of program.statuses" class="badge">{{status.name}}</span>
+                            <status-select [originalProgram]="program"></status-select>
                         </div>
                         <div class="col-md-1"><button type="button" class="btn btn-default" *ngIf="this.newTemplateState.programs.length>1" (click)="removeProgram(program);" style="color:tomato"><span class="glyphicon glyphicon-remove"></span></button></div>
                     </div>

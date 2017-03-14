@@ -9,11 +9,12 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { TemplateManagerComponent } from './components/templateManager.component';
 import { TemplateManagerRoutingModule, templateManagerRoutingComponents } from './templateManager.routing';
 import { SelectPicker } from './directives/select.picker';
+import {StatusSelectComponent} from './components/templateManager.status-select.component';
 
 
 @NgModule({
 	imports: [BrowserModule, HttpModule, TemplateManagerRoutingModule, FormsModule, Ng2PaginationModule, FileUploadModule],
-	declarations: [templateManagerRoutingComponents,SelectPicker ],
+	declarations: [templateManagerRoutingComponents,SelectPicker,StatusSelectComponent ],
 	bootstrap: [TemplateManagerComponent]
 })
 

@@ -1,1 +1,1 @@
-{"version":3,"file":"newtemplatestate.js","sourceRoot":"","sources":["../../../../app/templateManager/models/newtemplatestate.ts"],"names":[],"mappings":";;AAIA;IAAA;QAEI,aAAQ,GAAiB,EAAE,CAAC;QAE5B,iBAAY,GAAW,EAAE,CAAC;IAC9B,CAAC;IAAD,uBAAC;AAAD,CAAC,AALD,IAKC;AALY,4CAAgB"}
+{"version":3,"file":"newtemplatestate.js","sourceRoot":"","sources":["../../../../app/templateManager/models/newtemplatestate.ts"],"names":[],"mappings":";;;;;;;YAIA;gBAAA;oBAEI,aAAQ,GAAiB,EAAE,CAAC;oBAE5B,iBAAY,GAAW,EAAE,CAAC;gBAC9B,CAAC;gBAAD,uBAAC;YAAD,CAAC,AALD,IAKC;;QAAA,CAAC"}

@@ -1,0 +1,6 @@
+﻿
+<select custom-status>
+    <option *ngFor="let status of originalProgram.statuses" [attr.value]="originalProgram.statuses.indexOf(status)+1">{{status.name}}</option>
+</select>
+<script src="http://code.jquery.com/jquery-1.12.3.min.js"></script>
+<script src="../../../node_modules/select-picker/dist/picker.min.js"></script>

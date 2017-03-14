@@ -27,33 +27,43 @@
 			// other libraries
 			"class-transformer": "npm:class-transformer",
 			"ng2-file-upload": "npm:ng2-file-upload",
-			"ng2-pagination": "npm:ng2-pagination"
+			"ng2-pagination": "npm:ng2-pagination",
+			"jquery": "npm:jquery/dist",
+            "select-picker":"npm:select-picker/dist"
 		},
 		
 		packages: {
-			app: {
-				main: './main.js',
-				defaultExtension: 'js'
-			},
-			rxjs: {
-				defaultExtension: 'js'
-			},
-			'angular-in-memory-web-api': {
-				main: './index.js',
-				defaultExtension: 'js'
-			},
-			'class-transformer': {
-				"main": "index.js",
-				"defaultExtension": "js"
-			},
-			'ng2-file-upload': {
-				"main": "index.js",
-				"defaultExtension": "js"
-			},
-			'ng2-pagination': {
-				"main": "index.js",
-				"defaultExtension": "js"
-			}
-		}
+	        app: {
+	            main: './main.js',
+	            defaultExtension: 'js'
+	        },
+	        rxjs: {
+	            defaultExtension: 'js'
+	        },
+	        'angular-in-memory-web-api': {
+	            main: './index.js',
+	            defaultExtension: 'js'
+	        },
+	        'class-transformer': {
+	            "main": "index.js",
+	            "defaultExtension": "js"
+	        },
+	        'ng2-file-upload': {
+	            "main": "index.js",
+	            "defaultExtension": "js"
+	        },
+	        'ng2-pagination': {
+	            "main": "index.js",
+	            "defaultExtension": "js"
+	        },
+	        'jquery': {
+	            "main": "jquery.js",
+	            "defaultExtension": "js"
+	        },
+	        'select-picker': {
+	            "main": "picker.min.js",
+	            "defaultExtension": "js"
+	        }
+	    }
 	});
 })(this);

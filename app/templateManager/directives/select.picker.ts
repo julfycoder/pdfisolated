@@ -1,15 +1,24 @@
-﻿import { Directive, OnInit, ElementRef, Renderer,HostBinding,Input } from "@angular/core";
+﻿import { Directive, OnInit, ElementRef, Renderer, HostBinding, Input,AfterViewInit } from "@angular/core";
+import "select-picker";
+
+declare var jQuery: any;
+
+
+
 
 @Directive({
-    selector: "[custom-status]",
-    inputs:["allPrograms"]
+    selector: "[custom-status]"
 })
-export class SelectPicker implements OnInit{
-    constructor(public el: ElementRef, public renderer: Renderer) { }
-
-    ngOnInit() {
+export class SelectPicker{
+    ngAfterViewInit(): void {
         this.renderer.setElementAttribute(this.el.nativeElement, "id", "multi");
         this.renderer.setElementAttribute(this.el.nativeElement, "name", "multi");
+        this.renderer.setElementAttribute(this.el.nativeElement, "multiple", "multiple");
+        jQuery('#multi').picker({ search: true });
+    }
+
+    constructor(public el: ElementRef, public renderer: Renderer) {
         
     }
 }
+

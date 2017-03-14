@@ -1,1 +1,1 @@
-{"version":3,"file":"orgunit.js","sourceRoot":"","sources":["../../../../app/templateManager/models/orgunit.ts"],"names":[],"mappings":";;AAAA;IACI,iBAAmB,IAAY;QAAZ,SAAI,GAAJ,IAAI,CAAQ;IAE/B,CAAC;IACL,cAAC;AAAD,CAAC,AAJD,IAIC;AAJY,0BAAO"}
+{"version":3,"file":"orgunit.js","sourceRoot":"","sources":["../../../../app/templateManager/models/orgunit.ts"],"names":[],"mappings":";;;;;;;YAAA;gBACI,iBAAmB,IAAY;oBAAZ,SAAI,GAAJ,IAAI,CAAQ;gBAE/B,CAAC;gBACL,cAAC;YAAD,CAAC,AAJD,IAIC;;QAAA,CAAC"}
